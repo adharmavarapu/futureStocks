@@ -1,0 +1,78 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.0"
+    defaultConfig {
+        applicationId "com.adharmavarapu.futurestocks"
+        minSdkVersion 26
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    configurations.all {
+        resolutionStrategy.force 'com.google.code.findbugs:jsr305:1.3.9'
+    }
+    packagingOptions{
+        exclude 'META-INF/DEPENDENCIES.txt'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/dependencies.txt'
+        exclude 'META-INF/LGPL2.1'
+        exclude 'META-INF/versions/*'
+    }
+    buildTypes {
+        debug {
+            buildConfigField 'String', "AVKey", FS_AlphaVantageKey
+            buildConfigField 'String', "NewsKey", FS_NewsKey
+            buildConfigField 'String', "WatsonKey", FS_WatsonKey
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField 'String', "AVKey", FS_AlphaVantageKey
+            buildConfigField 'String', "NewsKey", FS_NewsKey
+            buildConfigField 'String', "WatsonKey", FS_WatsonKey
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation('io.github.ccincharge:newsapi:1.0') {
+        exclude group: 'javax.inject', module: 'javax.inject'
+    }
+    androidTestImplementation 'com.android.support.test.espresso:espresso-contrib:3.0.2', {
+        exclude group: 'com.google.code.findbugs', module: 'jsr305'
+    }
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2', {
+        exclude group: 'com.google.code.findbugs', module: 'jsr305'
+    }
+    api 'com.fasterxml.jackson.core:jackson-databind:2.9.6'
+    api 'com.fasterxml.jackson.core:jackson-core:2.9.6'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation('com.ibm.watson:ibm-watson:7.1.1'){
+        exclude group: 'com.google.code.findbugs', module: 'annotations'
+        exclude group: 'com.google.code.findbugs', module: 'jsr305'
+    }
+    implementation 'org.patriques:alphavantage4j:1.4'
+    implementation('com.googlecode.json-simple:json-simple:1.1.1'){
+        exclude group: 'org.hamcrest', module: 'hamcrest-core'
+        exclude group: 'junit', module: 'junit'
+    }
+}
